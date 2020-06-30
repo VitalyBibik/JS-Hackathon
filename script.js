@@ -27,11 +27,12 @@ const article = [
 
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
+
 //
 
 function getTemplateContent(title, text) {
   return `
-<div class="blog-articles">
+<div class="blog-article">
   <div class="blog-post__icons-container">
      <img src="./styles/images/header.png" alt="" class="blog-post__icon blog-post__icon-heading">
      <img src="./styles/images/text.png" alt="" class="blog-post__icon blog-post__icon-text">
@@ -48,7 +49,7 @@ function getTemplateContent(title, text) {
 function getTemplateIntro(logo, title, logoAlt) {
   return `
        <img src="${sanitizeHTML(logo)}" alt="${sanitizeHTML(logoAlt)}" class="intro__image">
-        <h1 class="intro__heading">${sanitizeHTML(title)}</h1>`
+        <h1 class="intro__heading" id="edit" contenteditable="true">${sanitizeHTML(title)}</h1>`
 }
 
 function sanitizeHTML(str) {
@@ -73,4 +74,13 @@ headers.forEach((headers) => {
 article.forEach((article) => {
   addContent(article.title, article.text);
 })
+
+//по кнопке добавляет карточку
+blogPost.querySelector('.blog-post__icon-heading').addEventListener('click', (e)=> {
+  addContent('Заголовок', 'Текст');
+})
+
+
+
+
 
