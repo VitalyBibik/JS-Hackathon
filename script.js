@@ -39,8 +39,8 @@ function getTemplateContent(title, text) {
      <img src="./styles/images/drag.png" alt="" class="blog-post__icon blog-post__icon-move">
    </div>
    <div class="blog-post__container">
-      <h2 class="blog-post__heading">${sanitizeHTML(title)}</h2>
-      <p class="blog-post__text">${sanitizeHTML(text)}</p>
+      <h2 class="blog-post__heading" contenteditable="true">${sanitizeHTML(title)}</h2>
+      <p class="blog-post__text" contenteditable="true">${sanitizeHTML(text)}</p>
    </div>
  </div>`
 }
