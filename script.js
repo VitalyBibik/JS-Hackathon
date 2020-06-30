@@ -86,31 +86,39 @@ function localObjectArticle() {
   const raw = localStorage.getItem('article')
   return JSON.parse(raw);
 }
+function localObjectHeader() {
+  const raw = localStorage.getItem('header')
+  return JSON.parse(raw);
+}
 
-function myforEach(object) {
-  for (let key in object){
-    console.log(key);
+function initArray(headers, article) {
+  headers.forEach((headers, index) => {
+    addIntro(headers.logo, headers.title, headers.logoAlt, index);
+  })
+  article.forEach((article, index) => {
+    addContent(article.title, article.text, index);
+  })
+}
+function init (headers, article){
+  if (localStorage){
+    console.log('Беру данные из стораджа');
+    localObjectHeader().forEach((headers, index) => {
+      addIntro(headers.logo, headers.title, headers.logoAlt, index);
+    })
+    localObjectArticle().forEach((article, index) => {
+      addContent(article.title, article.text, index);
+    })
   }
+  else {
+    console.log('Беру данные из массива');
+    initArray(headers, article);
+    localStorage.setItem('header', JSON.stringify(headers));
+    localStorage.setItem('article', JSON.stringify(article));
+  }
+
 }
 
-function init (){
-  localStorage.setItem('header', JSON.stringify(headers));
-  localStorage.setItem('article', JSON.stringify(article));
-}
-headers.forEach((headers, index) => {
-  addIntro(headers.logo, headers.title, headers.logoAlt, index);
-})
-article.forEach((article, index) => {
-  addContent(article.title, article.text, index);
-})
-localStorage.setItem('header', JSON.stringify(headers));
-localStorage.setItem('article', JSON.stringify(article));
-
-window.addEventListener('storage', ev => {
-  console.log(ev);
-})
 blogPost.addEventListener('input', editText);
-
-init();
+init(headers, article);
 console.log('init',localObjectArticle());
 
