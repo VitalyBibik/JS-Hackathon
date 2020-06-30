@@ -1,6 +1,7 @@
 const headers = [
   {
     logo:'https://notion-emojis.s3-us-west-2.amazonaws.com/v0/svg-twitter/1f3c0.svg',
+    logoAlt:'Баскетбольный мяч / Basketball ball',
     title: 'Правки'
   }
 ];
@@ -44,9 +45,9 @@ function getTemplateContent(title, text) {
  </div>`
 }
 
-function getTemplateIntro(logo, title) {
+function getTemplateIntro(logo, title, logoAlt) {
   return `
-       <img src="${sanitizeHTML(logo)}" alt="" class="intro__image">
+       <img src="${sanitizeHTML(logo)}" alt="${sanitizeHTML(logoAlt)}" class="intro__image">
         <h1 class="intro__heading">${sanitizeHTML(title)}</h1>`
 }
 
@@ -67,7 +68,7 @@ function addIntro(title, logo) {
 
 
 headers.forEach((headers) => {
-  addIntro(headers.logo, headers.title);
+  addIntro(headers.logo, headers.title, headers.logoAlt);
 })
 article.forEach((article) => {
   addContent(article.title, article.text);
