@@ -23,6 +23,11 @@
     max-width: 900px;
 }
 
+.blog-articles {
+    display: flex;
+    align-items: baseline;
+}
+
 .blog-post__container {
     max-width: 900px;
 }
@@ -47,6 +52,7 @@
     display: flex;
     justify-content: center;
     max-width: 95px;
+    margin-right: 10px;
 }
 
 .blog-post__icon {
