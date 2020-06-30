@@ -29,26 +29,26 @@ const blogPost = document.querySelector('.blog-post'); // Область ста�
 const intro = document.querySelector('.intro') // Область интро (заголовок)
 //
 
-function getTemplateContent(title, text) {
+function getTemplateContent(title, text, index) {
   return `
 <div class="blog-articles">
   <div class="blog-post__icons-container">
-     <img src="./styles/images/header.png" alt="" class="blog-post__icon blog-post__icon-heading">
-     <img src="./styles/images/text.png" alt="" class="blog-post__icon blog-post__icon-text">
-     <img src="./styles/images/delete.png" alt="" class="blog-post__icon blog-post__icon-delete">
-     <img src="./styles/images/drag.png" alt="" class="blog-post__icon blog-post__icon-move">
+     <img src="./styles/images/header.png" alt="Cоздать заголовок" class="blog-post__icon blog-post__icon-heading">
+     <img src="./styles/images/text.png" alt="Создать текст" class="blog-post__icon blog-post__icon-text">
+     <img src="./styles/images/delete.png" alt="Удалить" class="blog-post__icon blog-post__icon-delete">
+     <img src="./styles/images/drag.png" alt="Иконка" class="blog-post__icon blog-post__icon-move">
    </div>
-   <div class="blog-post__container">
+   <div class="blog-post__container" id=${sanitizeHTML(index)}>
       <h2 class="blog-post__heading" contenteditable="true">${sanitizeHTML(title)}</h2>
       <p class="blog-post__text" contenteditable="true">${sanitizeHTML(text)}</p>
    </div>
  </div>`
 }
 
-function getTemplateIntro(logo, title, logoAlt) {
+function getTemplateIntro(logo, title, logoAlt, index) {
   return `
        <img src="${sanitizeHTML(logo)}" alt="${sanitizeHTML(logoAlt)}" class="intro__image">
-        <h1 class="intro__heading">${sanitizeHTML(title)}</h1>`
+        <h1 class="intro__heading" id=${sanitizeHTML(index)}>${sanitizeHTML(title)}</h1>`
 }
 
 function sanitizeHTML(str) {
@@ -59,18 +59,58 @@ function sanitizeHTML(str) {
 
 
 // Создает карточку и добавляет на страницу
-function addContent(title, text) {
-  return blogPost.insertAdjacentHTML('beforeEnd', getTemplateContent(title, text));
+function addContent(title, text, index) {
+  return blogPost.insertAdjacentHTML('beforeend', getTemplateContent(title, text, index));
 }
-function addIntro(title, logo) {
-  return intro.insertAdjacentHTML('beforeEnd', getTemplateIntro(title, logo));
+function addIntro(logo, logoAlt, title, index) {
+  return intro.insertAdjacentHTML('beforeend', getTemplateIntro(logo, logoAlt, title, index));
+}
+function editText(event) {
+  if (event.target.classList.contains('blog-post__text')) {
+    const textValue = event.target.textContent;
+    const textId =  event.target.parentElement.id;
+
+    const currentStorage = localObjectArticle()[textId];
+    let currentStorageText = currentStorage.text;
+    currentStorageText = textValue;
+   console.log('localstorageALL', currentStorage);
+    console.log('localstorageTextNew', currentStorageText);
+
+  }
+}
+function checkId(event) {
+  if (event.target.parentElement.id === 1){}
+
+}
+function localObjectArticle() {
+  const raw = localStorage.getItem('article')
+  return JSON.parse(raw);
 }
 
+function myforEach(object) {
+  for (let key in object){
+    console.log(key);
+  }
+}
 
-headers.forEach((headers) => {
-  addIntro(headers.logo, headers.title, headers.logoAlt);
+function init (){
+  localStorage.setItem('header', JSON.stringify(headers));
+  localStorage.setItem('article', JSON.stringify(article));
+}
+headers.forEach((headers, index) => {
+  addIntro(headers.logo, headers.title, headers.logoAlt, index);
 })
-article.forEach((article) => {
-  addContent(article.title, article.text);
+article.forEach((article, index) => {
+  addContent(article.title, article.text, index);
 })
+localStorage.setItem('header', JSON.stringify(headers));
+localStorage.setItem('article', JSON.stringify(article));
+
+window.addEventListener('storage', ev => {
+  console.log(ev);
+})
+blogPost.addEventListener('input', editText);
+
+init();
+console.log('init',localObjectArticle());
 
