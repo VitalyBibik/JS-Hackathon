@@ -120,5 +120,5 @@ function init (headers, article){
 
 blogPost.addEventListener('input', editText);
 init(headers, article);
-console.log('init',localObjectArticle());
+
 
