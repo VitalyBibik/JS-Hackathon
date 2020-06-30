@@ -100,7 +100,7 @@ function initArray(headers, article) {
   })
 }
 function init (headers, article){
-  if (localStorage){
+  if (localStorage.length !== 0){
     console.log('Беру данные из стораджа');
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
