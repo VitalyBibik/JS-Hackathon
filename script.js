@@ -27,6 +27,7 @@ const article = [
 
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
+
 //
 
 function getTemplateContent(title, text, index) {
@@ -120,5 +121,4 @@ function init (headers, article){
 
 blogPost.addEventListener('input', editText);
 init(headers, article);
-
 
