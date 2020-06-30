@@ -20,8 +20,6 @@
 }
 
 .blog-post {
-    display: flex;
-    align-items: flex-start;
     max-width: 900px;
 }
 

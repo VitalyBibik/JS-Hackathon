@@ -30,15 +30,17 @@ const blogPost = document.querySelector('.blog-post'); // Область ста�
 
 function getTemplate(title, text) {
   return `
-<div class="blog-post__icons-container">
-   <img src="./styles/images/header.png" alt="" class="blog-post__icon blog-post__icon-heading">
-   <img src="./styles/images/text.png" alt="" class="blog-post__icon blog-post__icon-text">
-   <img src="./styles/images/delete.png" alt="" class="blog-post__icon blog-post__icon-delete">
-   <img src="./styles/images/drag.png" alt="" class="blog-post__icon blog-post__icon-move">
- </div>
- <div class="blog-post__container">
-    <h2 class="blog-post__heading">${sanitizeHTML(title)}</h2>
-    <p class="blog-post__text">${sanitizeHTML(text)}</p>
+<div class="blog-articles">
+  <div class="blog-post__icons-container">
+     <img src="./styles/images/header.png" alt="" class="blog-post__icon blog-post__icon-heading">
+     <img src="./styles/images/text.png" alt="" class="blog-post__icon blog-post__icon-text">
+     <img src="./styles/images/delete.png" alt="" class="blog-post__icon blog-post__icon-delete">
+     <img src="./styles/images/drag.png" alt="" class="blog-post__icon blog-post__icon-move">
+   </div>
+   <div class="blog-post__container">
+      <h2 class="blog-post__heading">${sanitizeHTML(title)}</h2>
+      <p class="blog-post__text">${sanitizeHTML(text)}</p>
+   </div>
  </div>`
 }
 
