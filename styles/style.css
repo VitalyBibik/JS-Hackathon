@@ -7,7 +7,7 @@
 
 .page {
     max-width: 900px;
-    width: 50%;
+    width: 60%;
     font-family: 'Inter', Arial, sans-serif;
     margin: 0 auto;
 }
@@ -19,16 +19,27 @@
     line-height: 51px;
 }
 
+.blog-post {
+    display: flex;
+    align-items: flex-start;
+    max-width: 900px;
+}
+
+.blog-post__container {
+    max-width: 900px;
+}
+
 .blog-post__heading {
     max-width: 227px;
     font-weight: bold;
     font-size: 30px;
     line-height: 36px;
-    margin-bottom: 30;
+    margin-bottom: 30px;
 }
 
 .blog-post__text {
     max-width: 684px;
+    width: 100%;
     font-weight: normal;
     font-size: 14px;
     line-height: 24px;
@@ -48,6 +59,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.blog-post__icon:hover {
+    background-color: #d4d2d2;
+    transition: 0.2ms;
 }
 
 
