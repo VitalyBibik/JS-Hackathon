@@ -1,4 +1,54 @@
-.page {
-    max-width: 1200px;
-    width: 90%;
+@import url('../styles/fonts/fonts.css');
+
+.body{
+    background-color:  #E5E5E5;
+    color: #000000;
 }
+
+.page {
+    max-width: 900px;
+    width: 50%;
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0 auto;
+}
+
+.intro__heading {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 42px;
+    line-height: 51px;
+}
+
+.blog-post__heading {
+    max-width: 227px;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 36px;
+    margin-bottom: 30;
+}
+
+.blog-post__text {
+    max-width: 684px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.blog-post__icons-container {
+    display: flex;
+    justify-content: center;
+    max-width: 95px;
+}
+
+.blog-post__icon {
+    width: 20px;
+    height: 20px;
+    background-color: #ECECEC;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
