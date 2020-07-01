@@ -68,7 +68,7 @@
 }
 .blog-post__icons-container:hover {
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity .3ms ease-in-out;
 }
 
 .blog-post__icon {

@@ -104,9 +104,9 @@ function initArrayArticle(article) {
     addContent(article.title, article.text, index);
   })
 }
-//delete post
+/* delete post old
 function deletePost(e) {
-    if(e.target.classList.contains('blog-post__icon-delete')) {
+    if (e.target.classList.contains('blog-post__icon-delete')) {
         const articles = localObjectArticle(); // don't delete
         const post = e.target.closest('.blog-articles');
         const postID = post.getAttribute('id');
@@ -120,8 +120,26 @@ function deletePost(e) {
         }
     }
 }
-function clearLastPost(e, article) {
-
+*/
+function deletePost(e) {
+    if ( (e.target.classList.contains('blog-post__icon-delete'))  ) {
+        const articles = localObjectArticle(); // don't delete
+        const post = e.target.closest('.blog-articles');
+        const postID = post.getAttribute('id');
+        let count = 0;
+        articles.forEach((article) => {
+            if (article !== null) {
+                count++;
+            }
+        })
+        if (count > 1 ) {
+            articles[postID] = null;
+            blogPost.removeChild(post);
+            localStorage.setItem('article', JSON.stringify(articles));
+        } else {
+            alert('Нельзя удалить последнюю карточку');
+        }
+    }
 }
 //adding new post to the list
 function addNewPost(e) {
@@ -137,13 +155,17 @@ function init(headers, article){
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
     localObjectArticle().forEach((article, index) => {
-      addContent(article.title, article.text, index);
+      if (article !== null) {
+          addContent(article.title, article.text, index);
+      }
     })
   }
   else if (localObjectHeader() !== null  && localObjectHeader().length !== 0) {
     console.log('Беру данные из стораджа Хэдер', localObjectHeader());
     localObjectHeader().forEach((headers, index) => {
-      addIntro(headers.logo, headers.title, headers.logoAlt, index);
+        if (headers !== null) {
+            addIntro(headers.logo, headers.title, headers.logoAlt, index);
+        }
     })
     initArrayArticle(article);
     localStorage.setItem('article', JSON.stringify(article));
@@ -152,7 +174,9 @@ function init(headers, article){
     console.log('Беру данные из стораджа Article', localObjectArticle());
     initArrayHeader(headers);
     localObjectArticle().forEach((article, index) => {
-      addContent(article.title, article.text, index);
+        if (article !== null) {
+            addContent(article.title, article.text, index);
+        }
     })
     localStorage.setItem('header', JSON.stringify(headers));
   }
