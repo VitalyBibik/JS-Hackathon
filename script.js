@@ -27,7 +27,6 @@ const article = [
 
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
-
 //
 
 function getTemplateContent(title, text, index) {
@@ -70,13 +69,20 @@ function editText(event) {
   if (event.target.classList.contains('blog-post__text')) {
     const textValue = event.target.textContent;
     const textId =  event.target.parentElement.id;
+    const currentStorage = localObjectArticle();
+    let finalStorage = currentStorage[textId].text = textValue;
 
-    const currentStorage = localObjectArticle()[textId];
-    let currentStorageText = currentStorage.text;
-    currentStorageText = textValue;
-   console.log('StorageOLD', currentStorage);
-    console.log('StorageNew', currentStorageText);
+    localStorage.setItem('article', JSON.stringify(currentStorage));
+  }
+}
+function editTitle(event) {
+  if (event.target.classList.contains('blog-post__heading')) {
+    const textValue = event.target.textContent;
+    const textId =  event.target.parentElement.id;
+    const currentStorage = localObjectArticle();
+    let finalStorage = currentStorage[textId].title = textValue;
 
+    localStorage.setItem('article', JSON.stringify(currentStorage));
   }
 }
 function checkId(event) {
@@ -100,8 +106,19 @@ function initArray(headers, article) {
     addContent(article.title, article.text, index);
   })
 }
+function initArrayHeader(headers) {
+  headers.forEach((headers, index) => {
+    addIntro(headers.logo, headers.title, headers.logoAlt, index);
+  })
+}
+function initArrayArticle(article) {
+  article.forEach((article, index) => {
+    addContent(article.title, article.text, index);
+  })
+}
+
 function init (headers, article){
-  if ( (localObjectArticle().length !== 0) && (localObjectHeader().length !== 0) ) {
+  if ( (localObjectArticle() !== null) && (localObjectHeader() !== null) ) {
     console.log('Беру данные из ВСЕГО стораджа ', localStorage);
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
@@ -110,17 +127,21 @@ function init (headers, article){
       addContent(article.title, article.text, index);
     })
   }
-  else if (localObjectHeader().length !== 0) {
+  else if (localObjectHeader() !== null) {
     console.log('Беру данные из стораджа Хэдер', localObjectHeader());
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
+    initArrayArticle(article);
+    localStorage.setItem('article', JSON.stringify(article));
   }
- else if (localObjectArticle().length !== 0){
+ else if (localObjectArticle() !== null){
     console.log('Беру данные из стораджа Article', localObjectArticle);
+    initArrayHeader(headers);
     localObjectArticle().forEach((article, index) => {
       addContent(article.title, article.text, index);
     })
+    localStorage.setItem('header', JSON.stringify(headers));
   }
  else {
     console.log('Беру данные из массива');
@@ -130,27 +151,10 @@ function init (headers, article){
   }
 
 }
-blogPost.addEventListener('click', (e)=> {
-  addNewPost(e);
-})
 
+//blogPost.addEventListener('input', editText);
+blogPost.addEventListener('input', editTitle);
 
-blogPost.addEventListener('input', editText);
 init(headers, article);
 
 
-headers.forEach((headers) => {
-  addIntro(headers.logo, headers.title, headers.logoAlt);
-})
-article.forEach((article) => {
-  addContent(article.title, article.text);
-})
-
-//по кнопке добавляет карточку
-
-
-function addNewPost(event) {
-  if(event.target.classList.contains('blog-post__icon-heading')){
-    addContent('Заголовок', 'Текст')
-  }
-}
