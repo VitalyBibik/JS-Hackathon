@@ -31,14 +31,14 @@ const intro = document.querySelector('.intro') // Область интро (з�
 
 function getTemplateContent(title, text, index) {
   return `
-<div class="blog-articles" draggable="true">
-  <div class="blog-post__icons-container">
+<div class="blog-articles" id=${sanitizeHTML(index)} draggable="true">
+  <div class="blog-post__icons-container" >
      <img src="./styles/images/header.png" alt="Cоздать заголовок" class="blog-post__icon blog-post__icon-heading">
      <img src="./styles/images/text.png" alt="Создать текст" class="blog-post__icon blog-post__icon-text">
      <img src="./styles/images/delete.png" alt="Удалить" class="blog-post__icon blog-post__icon-delete">
      <img src="./styles/images/drag.png" alt="Иконка" class="blog-post__icon blog-post__icon-move">
    </div>
-   <div class="blog-post__container" id=${sanitizeHTML(index)}>
+   <div class="blog-post__container">
       <h2 class="blog-post__heading" contenteditable="true">${sanitizeHTML(title)}</h2>
       <p class="blog-post__text" contenteditable="true">${sanitizeHTML(text)}</p>
    </div>
@@ -172,8 +172,11 @@ function deletePost(e) {
   if(e.target.classList.contains('blog-post__icon-delete')) {
     const post = e.target.closest('.blog-articles');
     blogPost.removeChild(post);
-    const articles = localStorage.getItem('article');
-
+    const articles = localObjectArticle();
+    const id = post.getAttribute('id');
+    articles.splice(id, 1);
+    localStorage.setItem('article', JSON.stringify(articles));
+    window.location.reload();
   }
 }
 
