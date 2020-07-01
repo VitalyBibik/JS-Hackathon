@@ -22,13 +22,8 @@ const article = [
     text: 'Российская Федерация может участвовать в межгосударственных объединениях и передавать им часть своих полномочий в соответствии с международными договорами Российской Федерации, если это не влечет за собой ограничения прав и свобод человека и гражданина и не противоречит основам конституционного строя Российской Федерации. Решения межгосударственных органов, принятые на основании положений международных договоров Российской Федерации в их истолковании, противоречащем Конституции Российской Федерации, не подлежат исполнению в Российской Федерации.'
   }
 ];
-
-
-
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
-
-//
 
 function getTemplateContent(title, text, index) {
   return `
@@ -45,20 +40,16 @@ function getTemplateContent(title, text, index) {
    </div>
  </div>`
 }
-
 function getTemplateIntro(logo, title, logoAlt, index) {
   return `
        <img src="${sanitizeHTML(logo)}" alt="${sanitizeHTML(logoAlt)}" class="intro__image">
-        <h1 class="intro__heading" id="edit" contenteditable="true">${sanitizeHTML(title)}</h1>`
+        <h1 class="intro__heading" id="${sanitizeHTML(index)}" contenteditable="true">${sanitizeHTML(title)}</h1>`
 }
-
 function sanitizeHTML(str) {
   let temp = document.createElement('div');
   temp.textContent = str;
   return temp.innerHTML;
 }
-
-
 // Создает карточку и добавляет на страницу
 function addContent(title, text, index) {
   return blogPost.insertAdjacentHTML('beforeend', getTemplateContent(title, text, index));
@@ -70,20 +61,18 @@ function addIntro(logo, logoAlt, title, index) {
 function editText(event) {
   if (event.target.classList.contains('blog-post__text')) {
     const textValue = event.target.textContent;
-    const textId =  event.target.parentElement.id;
+    const textId = event.target.closest('.blog-articles').id;
     const currentStorage = localObjectArticle();
     let finalStorage = currentStorage[textId].text = textValue;
-
     localStorage.setItem('article', JSON.stringify(currentStorage));
   }
 }
 function editTitle(event) {
   if (event.target.classList.contains('blog-post__heading')) {
     const textValue = event.target.textContent;
-    const textId =  event.target.parentElement.id;
+    const textId = event.target.closest('.blog-articles').id;
     const currentStorage = localObjectArticle();
     let finalStorage = currentStorage[textId].title = textValue;
-
     localStorage.setItem('article', JSON.stringify(currentStorage));
   }
 }
@@ -115,30 +104,83 @@ function initArrayArticle(article) {
     addContent(article.title, article.text, index);
   })
 }
+/* delete post old
+function deletePost(e) {
+    if (e.target.classList.contains('blog-post__icon-delete')) {
+        const articles = localObjectArticle(); // don't delete
+        const post = e.target.closest('.blog-articles');
+        const postID = post.getAttribute('id');
+        if ( ( articles.length > 1 ) && (articles.splice(postID,  1) !== undefined) ) {
+            articles.splice(postID,  1);
+            blogPost.removeChild(post);
+            localStorage.setItem('article', JSON.stringify(articles));
+            location.reload();
+        } else {
+            alert('Нельзя удалить последнюю карточку')
+        }
+    }
+}
+*/
+function deletePost(e) {
+    if ( (e.target.classList.contains('blog-post__icon-delete'))  ) {
+        const articles = localObjectArticle(); // don't delete
+        const post = e.target.closest('.blog-articles');
+        const postID = post.getAttribute('id');
+        let count = 0;
+        articles.forEach((article) => {
+            if (article !== null) {
+                count++;
+            }
+        })
+        if (count > 1 ) {
+            articles[postID] = null;
+            blogPost.removeChild(post);
+            localStorage.setItem('article', JSON.stringify(articles));
+        } else {
+            alert('Нельзя удалить последнюю карточку');
+        }
+    }
+}
+//adding new post to the list
+
+function addNewPost(e) {
+  if(e.target.classList.contains('blog-post__icon-heading')){
+     const currentPost = localObjectArticle();
+
+     console.log('Cpost', currentPost);
+    addContent('Заголовок', 'Текст')
+  }
+}
 
 function init(headers, article){
-  if ( (localObjectArticle() !== null) && (localObjectHeader() !== null) ) {
+  if ( (localObjectArticle() !== null && localObjectArticle().length !== 0) && (localObjectHeader() !== null && localObjectHeader().length !== 0) ) {
     console.log('Беру данные из ВСЕГО стораджа ', localStorage);
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
     localObjectArticle().forEach((article, index) => {
-      addContent(article.title, article.text, index);
+      if (article !== null) {
+          addContent(article.title, article.text, index);
+      }
     })
   }
-  else if (localObjectHeader() !== null) {
+  else if (localObjectHeader() !== null  && localObjectHeader().length !== 0) {
     console.log('Беру данные из стораджа Хэдер', localObjectHeader());
     localObjectHeader().forEach((headers, index) => {
-      addIntro(headers.logo, headers.title, headers.logoAlt, index);
+        if (headers !== null) {
+            addIntro(headers.logo, headers.title, headers.logoAlt, index);
+        }
     })
     initArrayArticle(article);
     localStorage.setItem('article', JSON.stringify(article));
   }
- else if (localObjectArticle() !== null){
-    console.log('Беру данные из стораджа Article', localObjectArticle);
+ else if (localObjectArticle() !== null && localObjectArticle().length !== 0){
+    console.log('Беру данные из стораджа Article', localObjectArticle());
     initArrayHeader(headers);
     localObjectArticle().forEach((article, index) => {
-      addContent(article.title, article.text, index);
+        if (article !== null) {
+            addContent(article.title, article.text, index);
+        }
     })
     localStorage.setItem('header', JSON.stringify(headers));
   }
@@ -148,47 +190,21 @@ function init(headers, article){
     localStorage.setItem('header', JSON.stringify(headers));
     localStorage.setItem('article', JSON.stringify(article));
   }
-
 }
 
-//blogPost.addEventListener('input', editText);
+blogPost.addEventListener('input', editText);
 blogPost.addEventListener('input', editTitle);
 
 init(headers, article);
 
-//adding new post to the list
-function addNewPost(e) {
-  if(e.target.classList.contains('blog-post__icon-heading')){
-    addContent('Заголовок', 'Текст')
-  }
-}
 
 blogPost.addEventListener('click', (e)=> {
   addNewPost(e);
 })
 
-
-//delete post
-function deletePost(e) {
-  if(e.target.classList.contains('blog-post__icon-delete')) {
-    const post = e.target.closest('.blog-articles');
-    blogPost.removeChild(post);
-
-    const articles = localObjectArticle();
-    const id = post.getAttribute('id');
-    articles.splice(id, 1);
-    localStorage.setItem('article', JSON.stringify(articles));
-    window.location.reload();
-
-  }
-}
-
 blogPost.addEventListener('click', (e)=> {
   deletePost(e);
 })
 
-//по кнопке добавляет карточку
-blogPost.querySelector('.blog-post__icon-heading').addEventListener('click', (e)=> {
-  addContent('Заголовок', 'Текст');
-})
+
 
