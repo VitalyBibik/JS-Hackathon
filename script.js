@@ -30,23 +30,23 @@ const intro = document.querySelector('.intro') // Область интро (з�
 
 //
 
-function getTemplateContent(title, text) {
+function getTemplateContent(title, text, index) {
   return `
 <div class="blog-article">
   <div class="blog-post__icons-container">
-     <img src="./styles/images/header.png" alt="" class="blog-post__icon blog-post__icon-heading">
-     <img src="./styles/images/text.png" alt="" class="blog-post__icon blog-post__icon-text">
-     <img src="./styles/images/delete.png" alt="" class="blog-post__icon blog-post__icon-delete">
-     <img src="./styles/images/drag.png" alt="" class="blog-post__icon blog-post__icon-move">
+     <img src="./styles/images/header.png" alt="Cоздать заголовок" class="blog-post__icon blog-post__icon-heading">
+     <img src="./styles/images/text.png" alt="Создать текст" class="blog-post__icon blog-post__icon-text">
+     <img src="./styles/images/delete.png" alt="Удалить" class="blog-post__icon blog-post__icon-delete">
+     <img src="./styles/images/drag.png" alt="Иконка" class="blog-post__icon blog-post__icon-move">
    </div>
-   <div class="blog-post__container">
-      <h2 class="blog-post__heading">${sanitizeHTML(title)}</h2>
-      <p class="blog-post__text">${sanitizeHTML(text)}</p>
+   <div class="blog-post__container" id=${sanitizeHTML(index)}>
+      <h2 class="blog-post__heading" contenteditable="true">${sanitizeHTML(title)}</h2>
+      <p class="blog-post__text" contenteditable="true">${sanitizeHTML(text)}</p>
    </div>
  </div>`
 }
 
-function getTemplateIntro(logo, title, logoAlt) {
+function getTemplateIntro(logo, title, logoAlt, index) {
   return `
        <img src="${sanitizeHTML(logo)}" alt="${sanitizeHTML(logoAlt)}" class="intro__image">
         <h1 class="intro__heading" id="edit" contenteditable="true">${sanitizeHTML(title)}</h1>`
@@ -60,20 +60,104 @@ function sanitizeHTML(str) {
 
 
 // Создает карточку и добавляет на страницу
-function addContent(title, text) {
-  return blogPost.insertAdjacentHTML('beforeEnd', getTemplateContent(title, text));
+function addContent(title, text, index) {
+  return blogPost.insertAdjacentHTML('beforeend', getTemplateContent(title, text, index));
 }
-function addIntro(title, logo) {
-  return intro.insertAdjacentHTML('beforeEnd', getTemplateIntro(title, logo));
+function addIntro(logo, logoAlt, title, index) {
+  return intro.insertAdjacentHTML('beforeend', getTemplateIntro(logo, logoAlt, title, index));
+}
+function editText(event) {
+  if (event.target.classList.contains('blog-post__text')) {
+    const textValue = event.target.textContent;
+    const textId =  event.target.parentElement.id;
+    const currentStorage = localObjectArticle();
+    let finalStorage = currentStorage[textId].text = textValue;
+
+    localStorage.setItem('article', JSON.stringify(currentStorage));
+  }
+}
+function editTitle(event) {
+  if (event.target.classList.contains('blog-post__heading')) {
+    const textValue = event.target.textContent;
+    const textId =  event.target.parentElement.id;
+    const currentStorage = localObjectArticle();
+    let finalStorage = currentStorage[textId].title = textValue;
+
+    localStorage.setItem('article', JSON.stringify(currentStorage));
+  }
+}
+function checkId(event) {
+  if (event.target.parentElement.id === 1){}
+
+}
+function localObjectArticle() {
+  const raw = localStorage.getItem('article')
+  return JSON.parse(raw);
+}
+function localObjectHeader() {
+  const raw = localStorage.getItem('header')
+  return JSON.parse(raw);
 }
 
+function initArray(headers, article) {
+  headers.forEach((headers, index) => {
+    addIntro(headers.logo, headers.title, headers.logoAlt, index);
+  })
+  article.forEach((article, index) => {
+    addContent(article.title, article.text, index);
+  })
+}
+function initArrayHeader(headers) {
+  headers.forEach((headers, index) => {
+    addIntro(headers.logo, headers.title, headers.logoAlt, index);
+  })
+}
+function initArrayArticle(article) {
+  article.forEach((article, index) => {
+    addContent(article.title, article.text, index);
+  })
+}
 
-headers.forEach((headers) => {
-  addIntro(headers.logo, headers.title, headers.logoAlt);
-})
-article.forEach((article) => {
-  addContent(article.title, article.text);
-})
+function init (headers, article){
+  if ( (localObjectArticle() !== null) && (localObjectHeader() !== null) ) {
+    console.log('Беру данные из ВСЕГО стораджа ', localStorage);
+    localObjectHeader().forEach((headers, index) => {
+      addIntro(headers.logo, headers.title, headers.logoAlt, index);
+    })
+    localObjectArticle().forEach((article, index) => {
+      addContent(article.title, article.text, index);
+    })
+  }
+  else if (localObjectHeader() !== null) {
+    console.log('Беру данные из стораджа Хэдер', localObjectHeader());
+    localObjectHeader().forEach((headers, index) => {
+      addIntro(headers.logo, headers.title, headers.logoAlt, index);
+    })
+    initArrayArticle(article);
+    localStorage.setItem('article', JSON.stringify(article));
+  }
+ else if (localObjectArticle() !== null){
+    console.log('Беру данные из стораджа Article', localObjectArticle);
+    initArrayHeader(headers);
+    localObjectArticle().forEach((article, index) => {
+      addContent(article.title, article.text, index);
+    })
+    localStorage.setItem('header', JSON.stringify(headers));
+  }
+ else {
+    console.log('Беру данные из массива');
+    initArray(headers, article);
+    localStorage.setItem('header', JSON.stringify(headers));
+    localStorage.setItem('article', JSON.stringify(article));
+  }
+
+}
+
+//blogPost.addEventListener('input', editText);
+blogPost.addEventListener('input', editTitle);
+
+init(headers, article);
+
 
 //по кнопке добавляет карточку
 blogPost.querySelector('.blog-post__icon-heading').addEventListener('click', (e)=> {
