@@ -100,6 +100,17 @@ function initArray(headers, article) {
     addContent(article.title, article.text, index);
   })
 }
+function initArrayHeader(headers) {
+  headers.forEach((headers, index) => {
+    addIntro(headers.logo, headers.title, headers.logoAlt, index);
+  })
+}
+function initArrayArticle(article) {
+  article.forEach((article, index) => {
+    addContent(article.title, article.text, index);
+  })
+}
+
 function init (headers, article){
   if ( (localObjectArticle() !== null) && (localObjectHeader() !== null) ) {
     console.log('Беру данные из ВСЕГО стораджа ', localStorage);
@@ -115,9 +126,11 @@ function init (headers, article){
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
+    initArrayArticle(article);
   }
  else if (localObjectArticle() !== null){
     console.log('Беру данные из стораджа Article', localObjectArticle);
+    initArrayHeader(headers);
     localObjectArticle().forEach((article, index) => {
       addContent(article.title, article.text, index);
     })
