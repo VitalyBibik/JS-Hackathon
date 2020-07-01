@@ -27,6 +27,7 @@ const article = [
 
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
+
 //
 
 function getTemplateContent(title, text, index) {
@@ -117,8 +118,27 @@ function init (headers, article){
   }
 
 }
+blogPost.addEventListener('click', (e)=> {
+  addNewPost(e);
+})
+
 
 blogPost.addEventListener('input', editText);
 init(headers, article);
 
 
+headers.forEach((headers) => {
+  addIntro(headers.logo, headers.title, headers.logoAlt);
+})
+article.forEach((article) => {
+  addContent(article.title, article.text);
+})
+
+//по кнопке добавляет карточку
+
+
+function addNewPost(event) {
+  if(event.target.classList.contains('blog-post__icon-heading')){
+    addContent('Заголовок', 'Текст')
+  }
+}
