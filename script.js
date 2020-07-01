@@ -127,6 +127,7 @@ function init (headers, article){
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
     initArrayArticle(article);
+    localStorage.setItem('article', JSON.stringify(article));
   }
  else if (localObjectArticle() !== null){
     console.log('Беру данные из стораджа Article', localObjectArticle);
@@ -134,6 +135,7 @@ function init (headers, article){
     localObjectArticle().forEach((article, index) => {
       addContent(article.title, article.text, index);
     })
+    localStorage.setItem('header', JSON.stringify(headers));
   }
  else {
     console.log('Беру данные из массива');
