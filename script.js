@@ -145,10 +145,17 @@ function deletePost(e) {
 
 function addNewPost(e) {
   if(e.target.classList.contains('blog-post__icon-heading')){
+      let zag = 'Заголовок';
+      let textPush = 'Текст';
      const currentPost = localObjectArticle();
+     const obj = {
+         title:zag,
+         text:textPush
+      }
+     // currentPost.key = obj;
 
-     console.log('Cpost', currentPost);
-    addContent('Заголовок', 'Текст')
+    addContent(obj.title, obj.text);
+
   }
 }
 
@@ -206,5 +213,7 @@ blogPost.addEventListener('click', (e)=> {
   deletePost(e);
 })
 
+console.log(localObjectArticle());
+console.log(typeof localObjectArticle());
 
 
