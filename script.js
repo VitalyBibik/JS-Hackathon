@@ -22,7 +22,6 @@ const article = [
     text: 'Российская Федерация может участвовать в межгосударственных объединениях и передавать им часть своих полномочий в соответствии с международными договорами Российской Федерации, если это не влечет за собой ограничения прав и свобод человека и гражданина и не противоречит основам конституционного строя Российской Федерации. Решения межгосударственных органов, принятые на основании положений международных договоров Российской Федерации в их истолковании, противоречащем Конституции Российской Федерации, не подлежат исполнению в Российской Федерации.'
   }
 ];
-
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
 
@@ -106,26 +105,20 @@ function initArrayArticle(article) {
   })
 }
 //delete post
- function deletePost(e) {
-  if(e.target.classList.contains('blog-post__icon-delete')) {
-   const articles = localObjectArticle(); // don't delete
-    const post = e.target.closest('.blog-articles');
-    const postID = post.getAttribute('id');
-
-
-    console.log('post',post);
-    console.log('articles', articles);
-   console.log('artID', articles.splice(postID, 1)[postID]);
-    if (articles.splice(postID, 1)[postID] === undefined){
-      console.log('Mimo');
-     // location.reload()
-    } else {
-      console.log('popal');
-      blogPost.removeChild(post);
-      localStorage.setItem('article', JSON.stringify(articles));
+function deletePost(e) {
+    if(e.target.classList.contains('blog-post__icon-delete')) {
+        const articles = localObjectArticle(); // don't delete
+        const post = e.target.closest('.blog-articles');
+        const postID = post.getAttribute('id');
+        if ( ( articles.length > 1 ) && (articles.splice(postID,  1) !== undefined) ) {
+            articles.splice(postID,  1);
+            blogPost.removeChild(post);
+            localStorage.setItem('article', JSON.stringify(articles));
+            location.reload();
+        } else {
+            alert('Нельзя удалить последнюю карточку')
+        }
     }
-
-  }
 }
 function clearLastPost(e, article) {
 
@@ -188,8 +181,6 @@ blogPost.addEventListener('click', (e)=> {
 blogPost.querySelector('.blog-post__icon-heading').addEventListener('click', (e)=> {
   addContent('Заголовок', 'Текст');
 })
-
-
 
 
 
