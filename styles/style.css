@@ -23,7 +23,7 @@
     max-width: 900px;
 }
 
-.blog-articles {
+.blog-article {
     display: flex;
     align-items: baseline;
 }
@@ -53,6 +53,11 @@
     justify-content: center;
     max-width: 95px;
     margin-right: 10px;
+    opacity: 0;
+}
+.blog-post__icons-container:hover {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .blog-post__icon {
