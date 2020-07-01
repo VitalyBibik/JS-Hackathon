@@ -146,9 +146,7 @@ function deletePost(e) {
 function addNewPost(e) {
   if(e.target.classList.contains('blog-post__icon-heading')){
      const currentPost = localObjectArticle();
-     currentPost.forEach((article, index) => {
 
-      })
      console.log('Cpost', currentPost);
     addContent('Заголовок', 'Текст')
   }
