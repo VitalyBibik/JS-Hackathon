@@ -142,8 +142,14 @@ function deletePost(e) {
     }
 }
 //adding new post to the list
+
 function addNewPost(e) {
   if(e.target.classList.contains('blog-post__icon-heading')){
+     const currentPost = localObjectArticle();
+     currentPost.forEach(article, index) {
+
+      }
+     console.log('Cpost', currentPost);
     addContent('Заголовок', 'Текст')
   }
 }
@@ -200,10 +206,6 @@ blogPost.addEventListener('click', (e)=> {
 
 blogPost.addEventListener('click', (e)=> {
   deletePost(e);
-})
-//по кнопке добавляет карточку
-blogPost.querySelector('.blog-post__icon-heading').addEventListener('click', (e)=> {
-  addContent('Заголовок', 'Текст');
 })
 
 

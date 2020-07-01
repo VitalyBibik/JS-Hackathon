@@ -64,7 +64,7 @@
     justify-content: center;
     max-width: 95px;
     margin-right: 10px;
-    opacity: 0;
+    opacity: 1;
 }
 .blog-post__icons-container:hover {
     opacity: 1;
