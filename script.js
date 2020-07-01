@@ -31,7 +31,7 @@ const intro = document.querySelector('.intro') // Область интро (з�
 
 function getTemplateContent(title, text, index) {
   return `
-<div class="blog-articles">
+<div class="blog-articles" draggable="true">
   <div class="blog-post__icons-container">
      <img src="./styles/images/header.png" alt="Cоздать заголовок" class="blog-post__icon blog-post__icon-heading">
      <img src="./styles/images/text.png" alt="Создать текст" class="blog-post__icon blog-post__icon-text">
@@ -62,6 +62,7 @@ function sanitizeHTML(str) {
 function addContent(title, text, index) {
   return blogPost.insertAdjacentHTML('beforeend', getTemplateContent(title, text, index));
 }
+
 function addIntro(logo, logoAlt, title, index) {
   return intro.insertAdjacentHTML('beforeend', getTemplateIntro(logo, logoAlt, title, index));
 }
@@ -85,10 +86,7 @@ function editTitle(event) {
     localStorage.setItem('article', JSON.stringify(currentStorage));
   }
 }
-function checkId(event) {
-  if (event.target.parentElement.id === 1){}
 
-}
 function localObjectArticle() {
   const raw = localStorage.getItem('article')
   return JSON.parse(raw);
@@ -117,7 +115,7 @@ function initArrayArticle(article) {
   })
 }
 
-function init (headers, article){
+function init(headers, article){
   if ( (localObjectArticle() !== null) && (localObjectHeader() !== null) ) {
     console.log('Беру данные из ВСЕГО стораджа ', localStorage);
     localObjectHeader().forEach((headers, index) => {
@@ -156,5 +154,33 @@ function init (headers, article){
 blogPost.addEventListener('input', editTitle);
 
 init(headers, article);
+
+//adding new post to the list
+function addNewPost(e) {
+  if(e.target.classList.contains('blog-post__icon-heading')){
+    addContent('Заголовок', 'Текст')
+  }
+}
+
+blogPost.addEventListener('click', (e)=> {
+  addNewPost(e);
+})
+
+
+//delete post
+function deletePost(e) {
+  if(e.target.classList.contains('blog-post__icon-delete')) {
+    const post = e.target.closest('.blog-articles');
+    blogPost.removeChild(post);
+    const articles = localStorage.getItem('article');
+
+  }
+}
+
+blogPost.addEventListener('click', (e)=> {
+  deletePost(e);
+})
+
+
 
 

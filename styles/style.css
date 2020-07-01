@@ -7,7 +7,7 @@
 
 .page {
     max-width: 900px;
-    width: 60%;
+    width: 50%;
     font-family: 'Inter', Arial, sans-serif;
     margin: 0 auto;
 }
@@ -17,13 +17,22 @@
     font-weight: bold;
     font-size: 42px;
     line-height: 51px;
+    margin: 0 0;
+}
+
+.intro__image {
+    padding-top: 144px;
+    padding-bottom: 50px;
+    width: 50px;
+    height: 50px;
 }
 
 .blog-post {
     max-width: 900px;
+    margin-left: -102px;
 }
 
-.blog-article {
+.blog-articles {
     display: flex;
     align-items: baseline;
 }
@@ -37,6 +46,7 @@
     font-weight: bold;
     font-size: 30px;
     line-height: 36px;
+    margin-top: 34px;
     margin-bottom: 30px;
 }
 
@@ -46,6 +56,7 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 24px;
+    margin-top: 30px;
 }
 
 .blog-post__icons-container {
@@ -76,8 +87,6 @@
     background-color: #d4d2d2;
     transition: 0.2ms;
 }
-.intro__image{
-    width: 78px;
-}
+
 
 
