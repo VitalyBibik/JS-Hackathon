@@ -1,3 +1,4 @@
+debugger;
 const headers = [
   {
     logo:'https://notion-emojis.s3-us-west-2.amazonaws.com/v0/svg-twitter/1f3c0.svg',
@@ -100,7 +101,7 @@ function initArray(headers, article) {
   })
 }
 function init (headers, article){
-  if ( (localObjectArticle().length !== 0) && (localObjectHeader().length !== 0) ) {
+  if ( (localObjectArticle() !== null) && (localObjectHeader() !== null) ) {
     console.log('Беру данные из ВСЕГО стораджа ', localStorage);
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
@@ -109,13 +110,13 @@ function init (headers, article){
       addContent(article.title, article.text, index);
     })
   }
-  else if (localObjectHeader().length !== 0) {
+  else if (localObjectHeader() !== null) {
     console.log('Беру данные из стораджа Хэдер', localObjectHeader());
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
   }
- else if (localObjectArticle().length !== 0){
+ else if (localObjectArticle() !== null){
     console.log('Беру данные из стораджа Article', localObjectArticle);
     localObjectArticle().forEach((article, index) => {
       addContent(article.title, article.text, index);
