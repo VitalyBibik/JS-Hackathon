@@ -73,8 +73,8 @@ function editText(event) {
     const currentStorage = localObjectArticle()[textId];
     let currentStorageText = currentStorage.text;
     currentStorageText = textValue;
-   console.log('localstorageALL', currentStorage);
-    console.log('localstorageTextNew', currentStorageText);
+   console.log('StorageOLD', currentStorage);
+    console.log('StorageNew', currentStorageText);
 
   }
 }
@@ -100,8 +100,8 @@ function initArray(headers, article) {
   })
 }
 function init (headers, article){
-  if (localStorage.length !== 0){
-    console.log('Беру данные из стораджа');
+  if ( (localObjectArticle().length !== 0) && (localObjectHeader().length !== 0) ) {
+    console.log('Беру данные из ВСЕГО стораджа ', localStorage);
     localObjectHeader().forEach((headers, index) => {
       addIntro(headers.logo, headers.title, headers.logoAlt, index);
     })
@@ -109,7 +109,19 @@ function init (headers, article){
       addContent(article.title, article.text, index);
     })
   }
-  else {
+  else if (localObjectHeader().length !== 0) {
+    console.log('Беру данные из стораджа Хэдер', localObjectHeader());
+    localObjectHeader().forEach((headers, index) => {
+      addIntro(headers.logo, headers.title, headers.logoAlt, index);
+    })
+  }
+ else if (localObjectArticle().length !== 0){
+    console.log('Беру данные из стораджа Article', localObjectArticle);
+    localObjectArticle().forEach((article, index) => {
+      addContent(article.title, article.text, index);
+    })
+  }
+ else {
     console.log('Беру данные из массива');
     initArray(headers, article);
     localStorage.setItem('header', JSON.stringify(headers));
