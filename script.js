@@ -27,6 +27,7 @@ const article = [
 
 const blogPost = document.querySelector('.blog-post'); // Область статей
 const intro = document.querySelector('.intro') // Область интро (заголовок)
+
 //
 
 function getTemplateContent(title, text, index) {
@@ -48,7 +49,7 @@ function getTemplateContent(title, text, index) {
 function getTemplateIntro(logo, title, logoAlt, index) {
   return `
        <img src="${sanitizeHTML(logo)}" alt="${sanitizeHTML(logoAlt)}" class="intro__image">
-        <h1 class="intro__heading" id=${sanitizeHTML(index)}>${sanitizeHTML(title)}</h1>`
+        <h1 class="intro__heading" id="edit" contenteditable="true">${sanitizeHTML(title)}</h1>`
 }
 
 function sanitizeHTML(str) {
@@ -172,11 +173,13 @@ function deletePost(e) {
   if(e.target.classList.contains('blog-post__icon-delete')) {
     const post = e.target.closest('.blog-articles');
     blogPost.removeChild(post);
+
     const articles = localObjectArticle();
     const id = post.getAttribute('id');
     articles.splice(id, 1);
     localStorage.setItem('article', JSON.stringify(articles));
     window.location.reload();
+
   }
 }
 
@@ -184,6 +187,8 @@ blogPost.addEventListener('click', (e)=> {
   deletePost(e);
 })
 
-
-
+//по кнопке добавляет карточку
+blogPost.querySelector('.blog-post__icon-heading').addEventListener('click', (e)=> {
+  addContent('Заголовок', 'Текст');
+})
 
