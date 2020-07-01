@@ -23,7 +23,7 @@
     max-width: 900px;
 }
 
-.blog-article {
+.blog-articles {
     display: flex;
     align-items: baseline;
 }
