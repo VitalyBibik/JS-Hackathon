@@ -87,6 +87,11 @@
     background-color: #d4d2d2;
     transition: 0.2ms;
 }
-
+.lines{
+    height:2px;
+    border-width:0;
+    color:gray;
+    background-color:#E5E5E5;
+}
 
 
