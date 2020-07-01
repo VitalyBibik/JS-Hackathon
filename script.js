@@ -1,4 +1,3 @@
-debugger;
 const headers = [
   {
     logo:'https://notion-emojis.s3-us-west-2.amazonaws.com/v0/svg-twitter/1f3c0.svg',
@@ -70,13 +69,20 @@ function editText(event) {
   if (event.target.classList.contains('blog-post__text')) {
     const textValue = event.target.textContent;
     const textId =  event.target.parentElement.id;
+    const currentStorage = localObjectArticle();
+    let finalStorage = currentStorage[textId].text = textValue;
 
-    const currentStorage = localObjectArticle()[textId];
-    let currentStorageText = currentStorage.text;
-    currentStorageText = textValue;
-   console.log('StorageOLD', currentStorage);
-    console.log('StorageNew', currentStorageText);
+    localStorage.setItem('article', JSON.stringify(currentStorage));
+  }
+}
+function editTitle(event) {
+  if (event.target.classList.contains('blog-post__heading')) {
+    const textValue = event.target.textContent;
+    const textId =  event.target.parentElement.id;
+    const currentStorage = localObjectArticle();
+    let finalStorage = currentStorage[textId].title = textValue;
 
+    localStorage.setItem('article', JSON.stringify(currentStorage));
   }
 }
 function checkId(event) {
@@ -146,7 +152,9 @@ function init (headers, article){
 
 }
 
-blogPost.addEventListener('input', editText);
+//blogPost.addEventListener('input', editText);
+blogPost.addEventListener('input', editTitle);
+
 init(headers, article);
 
 
